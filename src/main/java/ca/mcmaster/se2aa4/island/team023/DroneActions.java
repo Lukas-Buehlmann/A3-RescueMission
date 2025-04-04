@@ -14,6 +14,7 @@ public class DroneActions {
 
     private Drone drone;
     private Queue<JSONObject> actionQueue = new ArrayDeque<>();
+    private Queue<Command> commandQueue = new ArrayDeque<>();
     private Queue<Point<Integer>> nextPosition = new ArrayDeque<>();
 
     private boolean echoLeft = false;
@@ -118,8 +119,36 @@ public class DroneActions {
         actionQueue.add(turnRight());
     }
 
+    public void clearCommands() {
+        commandQueue.clear();
+    }
+
+    public void addRadarCommand(HeadingStates direction) {
+        commandQueue.add(new RadarCommand(this, direction));
+    }
+
+    public void addForwardCommand() {
+        commandQueue.add(new ForwardCommand(this));
+    }
+
+    public void addLeftTurnCommand() {
+        commandQueue.add(new TurnCommand(this, true));
+    }
+    
+    public void addRightTurnCommand() {
+        commandQueue.add(new TurnCommand(this, false));
+    }
+
+    public void addScanCommand() {
+        commandQueue.add(new ScanCommand(this));
+    }
+
+    public void addStopCommand() {
+        commandQueue.add(new StopCommand(this));
+    }
+
     // Action to fly forward
-    private JSONObject forward() {
+    public JSONObject forward() {
         JSONObject action = new JSONObject();
         action.put("action", "fly");
 
@@ -131,7 +160,7 @@ public class DroneActions {
         return action;
     }
 
-    private JSONObject turnLeft() {
+    public JSONObject turnLeft() {
         
         // update next position and rotate the drone heading
         if (nextPosition.isEmpty()) {
@@ -151,7 +180,7 @@ public class DroneActions {
         return action;
     }
 
-    private JSONObject turnRight() {
+    public JSONObject turnRight() {
 
         // update next position and rotate the drone heading
         if (nextPosition.isEmpty()) {
@@ -171,7 +200,7 @@ public class DroneActions {
         return action;
     }
 
-    private JSONObject radar(HeadingStates dir) {
+    public JSONObject radar(HeadingStates dir) {
 
         // no net change in position
         if (nextPosition.isEmpty()) {
@@ -188,7 +217,7 @@ public class DroneActions {
         return action;
     }
 
-    private JSONObject scan() {
+    public JSONObject scan() {
         
         // no net change in position
         if (nextPosition.isEmpty()) {
@@ -202,7 +231,7 @@ public class DroneActions {
         return action;
     }
 
-    private JSONObject stop() {
+    public JSONObject stop() {
         
         // no net change in position
         if (nextPosition.isEmpty()) {
