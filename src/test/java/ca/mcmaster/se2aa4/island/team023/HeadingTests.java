@@ -6,7 +6,9 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+/**
+ * Note that these tests were created before A3
+ */
 @TestInstance(Lifecycle.PER_CLASS)
 public class HeadingTests {
     @Test
