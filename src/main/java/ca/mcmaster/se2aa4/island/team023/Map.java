@@ -39,19 +39,19 @@ public class Map implements IMap {
 			// loop through all points from (x, y) to the end of the radar ping and mark as ocean
 			int i = 1;
 			while (i < Math.abs(distance * nextX) || i < Math.abs(distance * nextY)) {
-				grid.get(y + i*nextY).set(x + i*nextX, new OceanCell(x + i*nextX, y + i*nextY));
+				grid.get(y + i*nextY).set(x + i*nextX, new CellBuilder().simple(x + i*nextX, y + i*nextY, "OCEAN").build());
 				i++;
 			}
 
 			// if the pinged point is ground, mark it, otherwise ignore OOB
-			if (radarGroundFound) grid.get(y + i*nextY).set(x + i*nextX, new GroundCell(x + i*nextX, y + i*nextY));
+			if (radarGroundFound) grid.get(y + i*nextY).set(x + i*nextX, new CellBuilder().simple(x + i*nextX, y + i*nextY, "GROUND").build());
 			
 		} else {
 			expandMap(x, y);
-			if (isOcean && grid.get(y).get(x) == null) grid.get(y).set(x, new OceanCell(x, y));
+			if (isOcean && grid.get(y).get(x) == null) grid.get(y).set(x, new CellBuilder().simple(x, y, "OCEAN").build());
 			else {
 				if (creeks.length > 0 || sites.length > 0) pois.add(new Point<Integer>(x, y));
-				grid.get(y).set(x, new DetailedGroundCell(x, y, creeks, sites));
+				grid.get(y).set(x, new CellBuilder().detailed(x, y, creeks, sites, "DETAILEDGROUND").build());
 			}
 		}
 		

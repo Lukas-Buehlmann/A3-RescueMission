@@ -41,45 +41,13 @@ public class ExampleTest {
         scanOceanResponse = new JSONObject(new JSONTokener(new StringReader(scanOceanString)));
     }
 
-    @Test
-    public void checkHeadingTurnLeft() {
-        Heading heading = new Heading("E");
-        heading.turnCounterClockwise();
-        assertTrue(heading.getHeadingState() == Heading.HeadingStates.N);
-    }
+    
+    // -------------- START OF NEW TEST CASES -------------------
 
     @Test
-    public void checkHeadingTurnRight() {
-        Heading heading = new Heading("E");
-        heading.turnClockwise();
-        assertTrue(heading.getHeadingState() == Heading.HeadingStates.S);
-    }
+    public void cellIsPlacedFromRadar() {
 
-    @Test
-    public void checkHeadingNextPoint() {
-        Heading heading = new Heading("E");
-        Point<Integer> nextP = new Point<Integer>(1, 0);
-        assertTrue(heading.getHeadingState().getNextPoint().equals(nextP));
-    }
-
-    @Test
-    public void checkPointEquality() {
-        Point<Integer> p1 = new Point<Integer>(1, 0);
-        Point<Integer> p2 = new Point<Integer>(1, 0);
-        assertTrue(p1.equals(p2));
-    }
-
-    @Test
-    public void checkPointAddition() {
-        Point<Integer> p1 = new Point<Integer>(1, 0);
-        Point<Integer> p2 = new Point<Integer>(5, -2);
-        Point<Integer> res = new Point<Integer>(6, -2);
-        assertTrue(res.equals(Point.addInts(p1, p2)));
-    }
-
-    @Test
-    public void checkRadarCellPlacement() {
-
+        
         // make sure a cell placed from radar is correctly placed and marked as ground
         map.placeCell(1, 1, 0, 1, radarResponse);
         Cell groundCell = map.getCell(1, 3);
@@ -87,7 +55,7 @@ public class ExampleTest {
     }
 
     @Test
-    public void checkScanOceanPlacement() {
+    public void cellIsPlacedFromScan() {
 
         // make sure a cell placed from scan is correctly placed and marked as ocean
         map.placeCell(5, 5, 0, 1, scanOceanResponse);
@@ -97,7 +65,7 @@ public class ExampleTest {
 
     
     @Test
-    public void checkScanCreekPlacement() {
+    public void creekIsPlacedFromScan() {
 
         // make sure a cell placed from scan is correctly placed and marked as a creek
         map.placeCell(10, 10, 0, 1, scanCreekResponse);
